@@ -14,6 +14,7 @@ export default function HomePage() {
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUserRole(parsedUser.role);
+      
     }
   }, []); // [] means runs once on page load
 
