@@ -79,19 +79,24 @@ export default function ClassesPage() {
 
   // 3. UI: Loading State
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center text-xl font-semibold text-slate-500">Loading available classes...</div>;
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center gap-4">
+        <div className="spinner-lg" />
+        <span className="text-zinc-500 font-medium">Loading available classes...</span>
+      </div>
+    );
   }
 
   // 4. UI: The Main Storefront
   return (
-    <div className="min-h-screen bg-slate-50 p-8">
+    <div className="min-h-screen bg-[#0a0a0a] p-8 text-white">
       <div className="max-w-6xl mx-auto">
         
         <div className="flex justify-between items-center mb-10">
           <div>
             {/* UPDATED: Universal, subject-agnostic headers */}
-            <h1 className="text-4xl font-extrabold text-slate-900">Available Classes</h1>
-            <p className="text-slate-600 mt-2">Find a coach and book your next session.</p>
+            <h1 className="text-4xl font-extrabold text-white animate-fade-in-up">Available Classes</h1>
+            <p className="text-zinc-400 mt-2 animate-fade-in-up delay-1">Find a coach and book your next session.</p>
           </div>
           
           {/* Dynamic Navigation Button based on who is logged in */}
@@ -101,17 +106,17 @@ export default function ClassesPage() {
               else if (userRole === 'STUDENT') router.push('/student-dashboard');
               else router.push('/login');
             }}
-            className="px-5 py-2 bg-slate-200 text-slate-800 font-semibold rounded-lg hover:bg-slate-300 transition"
+            className="px-5 py-2 bg-zinc-800 text-zinc-200 font-semibold rounded-lg hover:bg-zinc-700 border border-zinc-700 transition"
           >
             {userRole ? "Go to Dashboard" : "Log In"}
           </button>
         </div>
 
         {/* Global Error Banner */}
-        {error && <div className="mb-6 p-4 bg-red-100 text-red-700 text-sm rounded-lg font-medium">{error}</div>}
+        {error && <div className="mb-6 p-4 bg-red-500/10 text-red-400 border border-red-500/20 text-sm rounded-lg font-medium">{error}</div>}
 
         {sessions.length === 0 ? (
-          <div className="p-12 bg-white rounded-xl shadow-sm border border-slate-200 text-center text-slate-500">
+          <div className="p-12 bg-[#111111] rounded-xl border border-zinc-800 text-center text-zinc-500">
             No classes are currently available. Please check back later!
           </div>
         ) : (
@@ -119,32 +124,32 @@ export default function ClassesPage() {
             
             {/* Loop through every class in the database */}
             {sessions.map((session) => (
-              <div key={session.id} className="p-6 bg-white rounded-xl shadow-sm border border-slate-200 hover:shadow-lg transition-shadow flex flex-col relative overflow-hidden">
+              <div key={session.id} className="p-6 bg-[#111111] rounded-xl border border-zinc-800 card-hover animate-fade-in-up transition-shadow flex flex-col relative overflow-hidden">
                 
                 {/* Price Tag Badge */}
-                <div className="absolute top-4 right-4 bg-green-100 text-green-800 font-extrabold px-3 py-1 rounded-full text-sm">
+                <div className="absolute top-4 right-4 bg-green-500/10 text-green-400 border border-green-500/20 font-extrabold px-3 py-1 rounded-full text-sm">
                   ${session.price}
                 </div>
 
-                <h3 className="text-xl font-bold text-slate-900 mb-2 pr-16">{session.title}</h3>
+                <h3 className="text-xl font-bold text-white mb-2 pr-16">{session.title}</h3>
                 
                 {/* Convert the ugly ISO date into a nice readable format */}
-                <p className="text-blue-600 text-sm font-semibold mb-4">
+                <p className="text-blue-400 text-sm font-semibold mb-4">
                   {new Date(session.date).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
                 </p>
 
-                <p className="text-slate-600 text-sm mb-6 flex-grow">{session.description}</p>
+                <p className="text-zinc-400 text-sm mb-6 flex-grow">{session.description}</p>
                 
-                <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-                  <div className="text-xs text-slate-500">
-                    <span className="font-semibold text-slate-700">{session.maxSlots}</span> slots max
+                <div className="flex items-center justify-between pt-4 border-t border-zinc-800">
+                  <div className="text-xs text-zinc-500">
+                    <span className="font-semibold text-zinc-300">{session.maxSlots}</span> slots max
                   </div>
                   
                   <button 
                     onClick={() => handleBook(session.id)}
                     disabled={bookingId === session.id} // Disable ONLY this button if it's loading
                     className={`px-6 py-2 text-white font-semibold rounded-lg transition shadow-sm 
-                      ${userRole === 'COACH' ? 'bg-slate-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}
+                      ${userRole === 'COACH' ? 'bg-zinc-700 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 btn-glow'}
                       ${bookingId === session.id ? 'opacity-75 cursor-wait' : ''}
                     `}
                   >

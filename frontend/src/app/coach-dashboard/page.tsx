@@ -21,7 +21,7 @@ export default function CoachDashboard() {
   const [sport, setSport] = useState("Tennis");
   const [location, setLocation] = useState("Koramangala Sports Complex");
   const [date, setDate] = useState("");
-  const [timeSlot, setTimeSlot] = useState("10-11 hrs");
+  const [timeSlot, setTimeSlot] = useState("10:00 AM - 11:00 AM");
   const [maxCapacity, setMaxCapacity] = useState("8");
   const [price, setPrice] = useState("1000");
   const [isCreating, setIsCreating] = useState(false);
@@ -106,17 +106,17 @@ export default function CoachDashboard() {
     setPrice("1000");
     setSport("Tennis");
     setLocation("Koramangala Sports Complex");
-    setTimeSlot("10-11 hrs");
+    setTimeSlot("10:00 AM - 11:00 AM");
   };
 
   const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 
-  if (loading) return <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center text-zinc-500">Loading your dashboard...</div>;
+  if (loading) return <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center gap-4"><div className="spinner-lg" /><span className="text-zinc-500 font-medium">Loading your dashboard...</span></div>;
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] font-sans text-white pb-20 relative">
       {/* Navbar */}
-      <nav className="bg-blue-600 px-6 py-3 flex items-center justify-between shadow-md">
+      <nav className="bg-blue-600 px-6 py-3 flex items-center justify-between shadow-md animate-slide-down">
         <div className="flex items-center gap-3 font-bold text-xl tracking-tight">
           <div className="w-8 h-8 bg-white text-blue-600 rounded flex items-center justify-center text-lg">M</div>
           Mavano Sports
@@ -140,18 +140,30 @@ export default function CoachDashboard() {
       </nav>
 
       <div className="max-w-6xl mx-auto px-6 mt-12">
-        <div className="mb-10 border-b border-zinc-800 pb-8 flex justify-between items-end">
-          <div>
-            <h1 className="text-4xl font-bold tracking-tight mb-2">Welcome, Coach {user?.name ? user.name.split(' ')[0] : ''}!</h1>
-            <p className="text-zinc-400">Create and manage your coaching sessions</p>
+        <div className="mb-10 relative rounded-3xl overflow-hidden border border-zinc-800 shadow-2xl animate-fade-in-up bg-[#111111] min-h-[220px] flex items-center">
+          <div className="absolute inset-0 z-0">
+            <img src="/coach-hero.png" alt="Coach Hero" className="w-full h-full object-cover opacity-50 mix-blend-screen" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent"></div>
           </div>
-          <button onClick={() => setIsModalOpen(true)} className="hidden sm:flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium transition-colors shadow-lg shadow-blue-500/20">
-            <Plus size={18} /> Create Session
-          </button>
+          <div className="relative z-10 p-8 md:p-12 w-full flex flex-col sm:flex-row justify-between items-start sm:items-end">
+            <div className="max-w-xl">
+              <span className="inline-block px-3 py-1 bg-blue-500/20 border border-blue-500/30 text-blue-400 text-sm font-bold rounded-full mb-4 animate-fade-in-up delay-1">Mavano Coach Portal</span>
+              <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-3 text-white animate-fade-in-up delay-2">
+                Welcome, Coach {user?.name ? user.name.split(' ')[0] : ''}!
+              </h1>
+              <p className="text-zinc-400 text-lg animate-fade-in-up delay-3">
+                Inspire the next generation of athletes. Create and manage your elite coaching sessions.
+              </p>
+            </div>
+            <button onClick={() => setIsModalOpen(true)} className="mt-6 sm:mt-0 flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-colors shadow-[0_0_20px_rgba(37,99,235,0.4)] btn-glow btn-shine animate-fade-in-up delay-4">
+              <Plus size={20} /> Create Session
+            </button>
+          </div>
         </div>
 
         {/* Sub-menu Navigation */}
-        <div className="flex gap-8 mb-8 border-b border-zinc-800">
+        <div className="flex gap-8 mb-8 border-b border-zinc-800 animate-fade-in-up delay-1">
           <Link href="/coach-dashboard" className="flex items-center gap-2 font-medium pb-4 border-b-2 text-blue-500 border-blue-500 transition-colors">
             <Plus size={18} className="rotate-45" /> My Sessions
             <span className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full ml-1">{sessions.length}</span>
@@ -164,15 +176,23 @@ export default function CoachDashboard() {
         {/* Sessions Grid */}
         <div>
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-bold">Your Coaching Sessions</h2>
+            <h2 className="text-xl font-bold animate-fade-in-up delay-2">Your Coaching Sessions</h2>
             <button onClick={() => setIsModalOpen(true)} className="sm:hidden flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium">
               <Plus size={16} /> Create
             </button>
           </div>
           
           {sessions.length === 0 ? (
-            <div className="p-12 border border-zinc-800 rounded-xl text-center text-zinc-500 bg-[#111111]">
-              No sessions created yet. Click "Create Session" to get started.
+            <div className="p-16 border border-zinc-800 rounded-2xl text-center flex flex-col items-center bg-[#111111] animate-fade-in shadow-xl relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent pointer-events-none"></div>
+              <div className="w-64 h-64 relative mb-6 animate-float z-10 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(37,99,235,0.15)] border border-zinc-800">
+                 <img src="/kids-sports.png" alt="Empty State" className="w-full h-full object-cover" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-3 z-10">Your Roster is Empty</h3>
+              <p className="text-zinc-400 max-w-md mb-8 z-10 text-lg">You haven't scheduled any coaching sessions yet. Start by creating your first elite class to reach new students.</p>
+              <button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 btn-glow btn-shine transition-colors z-10 shadow-lg">
+                <Plus size={18} /> Create Your First Session
+              </button>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -181,7 +201,7 @@ export default function CoachDashboard() {
                 const spotsAvailable = session.maxSlots - spotsFilled;
 
                 return (
-                  <div key={session.id} className="bg-[#111111] border border-zinc-800 rounded-xl p-6 flex flex-col hover:border-zinc-700 transition-colors">
+                  <div key={session.id} className="bg-[#111111] border border-zinc-800 rounded-xl p-6 flex flex-col hover:border-zinc-700 transition-colors card-hover animate-fade-in-up">
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="text-lg font-bold leading-tight pr-4">{session.title}</h3>
                       <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-xs px-2.5 py-1 rounded-full font-medium">Standard</span>
@@ -214,7 +234,7 @@ export default function CoachDashboard() {
 
                     <div className="flex justify-between items-center mt-auto pt-4 border-t border-zinc-800">
                       <div className="text-xl font-bold text-blue-500">₹{session.price}</div>
-                      <button onClick={() => handleDeleteClass(session.id)} className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors">Delete</button>
+                      <button onClick={() => handleDeleteClass(session.id)} className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors btn-glow">Delete</button>
                     </div>
                   </div>
                 );
@@ -226,8 +246,8 @@ export default function CoachDashboard() {
 
       {/* CREATE SESSION MODAL */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-[#111111] border border-zinc-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-backdrop-in">
+          <div className="bg-[#111111] border border-zinc-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl animate-modal-in">
             <div className="sticky top-0 bg-[#111111] p-6 border-b border-zinc-800 flex justify-between items-center z-10">
               <div>
                 <h2 className="text-2xl font-bold">Create New Session</h2>
@@ -253,10 +273,18 @@ export default function CoachDashboard() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-zinc-200 mb-2">Sport</label>
-                    <select value={sport} onChange={(e) => setSport(e.target.value)} className="w-full px-4 py-3 bg-[#0a0a0a] border border-zinc-800 rounded-xl outline-none focus:border-blue-600 transition-all cursor-pointer">
+                    <select value={sport} onChange={(e) => setSport(e.target.value)} className="w-full px-4 py-3 bg-[#0a0a0a] text-white border border-zinc-800 rounded-xl outline-none focus:border-blue-600 transition-all cursor-pointer">
                       <option value="Tennis">Tennis</option>
                       <option value="Swimming">Swimming</option>
                       <option value="Cricket">Cricket</option>
+                      <option value="Basketball">Basketball</option>
+                      <option value="Football">Football</option>
+                      <option value="Badminton">Badminton</option>
+                      <option value="Yoga">Yoga</option>
+                      <option value="Gymnastics">Gymnastics</option>
+                      <option value="Martial Arts">Martial Arts</option>
+                      <option value="Table Tennis">Table Tennis</option>
+                      <option value="Golf">Golf</option>
                     </select>
                   </div>
                   <div>
@@ -279,11 +307,7 @@ export default function CoachDashboard() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-zinc-200 mb-2">Time Slot</label>
-                    <select value={timeSlot} onChange={(e) => setTimeSlot(e.target.value)} className="w-full px-4 py-3 bg-[#0a0a0a] border border-zinc-800 rounded-xl outline-none focus:border-blue-600 transition-all cursor-pointer">
-                      <option value="08-09 hrs">08-09 hrs</option>
-                      <option value="10-11 hrs">10-11 hrs</option>
-                      <option value="16-17 hrs">16-17 hrs</option>
-                    </select>
+                    <input type="text" value={timeSlot} onChange={(e) => setTimeSlot(e.target.value)} placeholder="e.g. 10:00 AM - 11:30 AM" className="w-full px-4 py-3 bg-[#0a0a0a] text-white border border-zinc-800 rounded-xl outline-none focus:border-blue-600 transition-all placeholder:text-zinc-600" required />
                   </div>
                 </div>
                 
@@ -311,7 +335,7 @@ export default function CoachDashboard() {
 
                 <div className="pt-4 border-t border-zinc-800 flex gap-4 justify-end">
                   <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-3 font-semibold text-zinc-400 hover:text-white transition-colors">Cancel</button>
-                  <button type="submit" disabled={isCreating} className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/20 disabled:opacity-50">
+                  <button type="submit" disabled={isCreating} className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/20 disabled:opacity-50 btn-glow btn-shine">
                     {isCreating ? "Creating..." : "Create Session"}
                   </button>
                 </div>

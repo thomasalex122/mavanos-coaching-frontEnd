@@ -87,13 +87,13 @@ export default function StudentDashboard() {
 
   const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 
-  if (loading) return <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center text-zinc-500">Loading your dashboard...</div>;
+  if (loading) return <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center gap-4"><div className="spinner-lg" /><span className="text-zinc-500 font-medium">Loading your dashboard...</span></div>;
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] font-sans text-white pb-20 relative">
       
       {/* 1. Navbar (Cleaned up, no middle links) */}
-      <nav className="bg-blue-600 px-6 py-3 flex items-center justify-between shadow-md">
+      <nav className="bg-blue-600 px-6 py-3 flex items-center justify-between shadow-md animate-slide-down">
         <div className="flex items-center gap-3 font-bold text-xl tracking-tight">
           <div className="w-8 h-8 bg-white text-blue-600 rounded flex items-center justify-center text-lg">M</div>
           Mavano Sports
@@ -120,13 +120,27 @@ export default function StudentDashboard() {
       <div className="max-w-6xl mx-auto px-6 mt-12">
         
         {/* Header */}
-        <div className="mb-10">
-          <h1 className="text-4xl font-bold tracking-tight mb-2">Welcome back, {user?.name ? user.name.split(' ')[0] : 'User'}!</h1>
-          <p className="text-zinc-400">Browse and book coaching sessions to improve your skills</p>
+        <div className="mb-10 relative rounded-3xl overflow-hidden border border-zinc-800 shadow-2xl animate-fade-in-up bg-[#111111] min-h-[220px] flex items-center">
+          <div className="absolute inset-0 z-0">
+            <img src="/kids-sports.png" alt="Student Hero" className="w-full h-full object-cover opacity-50 mix-blend-screen object-top" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent"></div>
+          </div>
+          <div className="relative z-10 p-8 md:p-12 w-full flex flex-col justify-center items-start">
+            <div className="max-w-xl">
+              <span className="inline-block px-3 py-1 bg-green-500/20 border border-green-500/30 text-green-400 text-sm font-bold rounded-full mb-4 animate-fade-in-up delay-1">Student Portal</span>
+              <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-3 text-white animate-fade-in-up delay-2">
+                Welcome back, {user?.name ? user.name.split(' ')[0] : 'User'}!
+              </h1>
+              <p className="text-zinc-400 text-lg animate-fade-in-up delay-3">
+                Ready to level up? Browse elite coaching sessions and master your sport today.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* 3. Sub-menu Tabs */}
-        <div className="flex gap-8 mb-8 border-b border-zinc-800">
+        <div className="flex gap-8 mb-8 border-b border-zinc-800 animate-fade-in-up delay-1">
           <button onClick={() => setActiveTab('browse')} className={`flex items-center gap-2 font-medium pb-4 border-b-2 transition-colors ${activeTab === 'browse' ? 'text-blue-500 border-blue-500' : 'text-zinc-500 border-transparent hover:text-zinc-300'}`}>
             <BookOpen size={18} /> Browse Sessions
           </button>
@@ -143,7 +157,7 @@ export default function StudentDashboard() {
         {activeTab === 'browse' && (
           <div>
             {/* Filters Box */}
-            <div className="bg-[#111111] border border-zinc-800 rounded-xl p-6 mb-8">
+            <div className="bg-[#111111] border border-zinc-800 rounded-xl p-6 mb-8 animate-fade-in-up delay-2">
               <div className="flex items-center gap-2 font-bold mb-4">
                 <Filter size={18} className="text-blue-500" /> Filter Sessions
               </div>
@@ -174,8 +188,13 @@ export default function StudentDashboard() {
 
             {/* Sessions Grid */}
             {filteredSessions.length === 0 ? (
-              <div className="p-12 border border-zinc-800 rounded-xl text-center text-zinc-500 bg-[#111111]">
-                No sessions match your filters. Try changing them!
+              <div className="p-16 border border-zinc-800 rounded-2xl text-center flex flex-col items-center bg-[#111111] animate-fade-in shadow-xl relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent pointer-events-none"></div>
+                <div className="w-56 h-56 relative mb-6 animate-float z-10 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(37,99,235,0.15)] border border-zinc-800">
+                   <img src="/coach-hero.png" alt="No classes found" className="w-full h-full object-cover" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-3 z-10">No Sessions Found</h3>
+                <p className="text-zinc-400 max-w-md z-10 text-lg">We couldn't find any coaching sessions matching your current filters. Try adjusting your search to discover more classes!</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -186,7 +205,7 @@ export default function StudentDashboard() {
                   const isFull = spotsFilled >= session.maxSlots;
 
                   return (
-                    <div key={session.id} className="bg-[#111111] border border-zinc-800 rounded-xl p-6 flex flex-col hover:border-zinc-700 transition-colors">
+                    <div key={session.id} className="bg-[#111111] border border-zinc-800 rounded-xl p-6 flex flex-col hover:border-zinc-700 transition-colors card-hover animate-fade-in-up">
                       <div className="flex justify-between items-start mb-2">
                         <h3 className="text-lg font-bold leading-tight pr-4">{session.title}</h3>
                         <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-xs px-2.5 py-1 rounded-full font-medium whitespace-nowrap">Standard</span>
@@ -221,7 +240,7 @@ export default function StudentDashboard() {
                           <button 
                             onClick={() => handleBookSession(session.id)}
                             disabled={isBooking === session.id}
-                            className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors shadow-sm disabled:opacity-50"
+                            className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors shadow-sm disabled:opacity-50 btn-glow"
                           >
                             {isBooking === session.id ? 'Booking...' : 'Book Session'}
                           </button>
@@ -239,8 +258,16 @@ export default function StudentDashboard() {
         {activeTab === 'bookings' && (
           <div>
             {myBookings.length === 0 ? (
-              <div className="p-12 border border-zinc-800 rounded-xl text-center text-zinc-500 bg-[#111111]">
-                You haven't booked any sessions yet. Head over to the Browse tab to find one!
+              <div className="p-16 border border-zinc-800 rounded-2xl text-center flex flex-col items-center bg-[#111111] animate-fade-in shadow-xl relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-green-500/5 to-transparent pointer-events-none"></div>
+                <div className="w-56 h-56 relative mb-6 animate-float z-10 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(34,197,94,0.15)] border border-zinc-800">
+                   <img src="/kids-sports.png" alt="No bookings" className="w-full h-full object-cover grayscale opacity-70" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-3 z-10">No Bookings Yet</h3>
+                <p className="text-zinc-400 max-w-md mb-8 z-10 text-lg">You haven't scheduled any training yet. Head over to the Browse tab to find the perfect coach and secure your spot!</p>
+                <button onClick={() => setActiveTab('browse')} className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 btn-glow btn-shine transition-colors z-10 shadow-lg">
+                  <BookOpen size={18} /> Browse Sessions
+                </button>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -249,7 +276,7 @@ export default function StudentDashboard() {
                   if (!session) return null;
 
                   return (
-                    <div key={booking.id} className="bg-[#111111] border border-zinc-800 rounded-xl p-6 flex flex-col">
+                    <div key={booking.id} className="bg-[#111111] border border-zinc-800 rounded-xl p-6 flex flex-col card-hover animate-fade-in-up">
                       <div className="flex justify-between items-start mb-2">
                         <h3 className="text-lg font-bold leading-tight pr-4">{session.title}</h3>
                         <span className="bg-green-500/10 text-green-400 border border-green-500/20 text-xs px-2.5 py-1 rounded-full font-medium whitespace-nowrap">Confirmed</span>

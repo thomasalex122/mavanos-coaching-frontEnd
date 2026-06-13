@@ -48,12 +48,17 @@ export default function CoachAnalytics() {
   const potentialRevenue = sessions.reduce((acc, s) => acc + ((s.bookings?.length || 0) * s.price), 0);
   const sortedSessions = [...sessions].sort((a, b) => (b.bookings?.length || 0) - (a.bookings?.length || 0));
 
-  if (loading) return <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center text-zinc-500">Loading analytics...</div>;
+  if (loading) return (
+    <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center gap-4">
+      <div className="spinner-lg" />
+      <span className="text-zinc-500 font-medium">Loading analytics...</span>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] font-sans text-white pb-20">
       {/* Navbar */}
-      <nav className="bg-blue-600 px-6 py-3 flex items-center justify-between shadow-md">
+      <nav className="bg-blue-600 px-6 py-3 flex items-center justify-between shadow-md animate-slide-down">
         <div className="flex items-center gap-3 font-bold text-xl tracking-tight">
           <div className="w-8 h-8 bg-white text-blue-600 rounded flex items-center justify-center text-lg">M</div>
           Mavano Sports
@@ -74,7 +79,7 @@ export default function CoachAnalytics() {
       </nav>
 
       <div className="max-w-6xl mx-auto px-6 mt-12">
-        <div className="mb-10 border-b border-zinc-800 pb-8 flex justify-between items-end">
+        <div className="mb-10 border-b border-zinc-800 pb-8 flex justify-between items-end animate-fade-in-up">
           <div>
             <h1 className="text-4xl font-bold tracking-tight mb-2">Welcome, Coach {user?.name ? user.name.split(' ')[0] : ''}!</h1>
             <p className="text-zinc-400">View your performance and revenue insights</p>
@@ -82,7 +87,7 @@ export default function CoachAnalytics() {
         </div>
 
         {/* Sub-menu Navigation */}
-        <div className="flex gap-8 mb-8 border-b border-zinc-800">
+        <div className="flex gap-8 mb-8 border-b border-zinc-800 animate-fade-in-up delay-1">
           <Link href="/coach-dashboard" className="flex items-center gap-2 font-medium pb-4 border-b-2 text-zinc-500 border-transparent hover:text-zinc-300 transition-colors">
             <Plus size={18} className="rotate-45" /> My Sessions
             <span className="bg-zinc-800 text-zinc-300 text-xs px-2 py-0.5 rounded-full ml-1">{sessions.length}</span>
@@ -95,18 +100,18 @@ export default function CoachAnalytics() {
         {/* ANALYTICS VIEW */}
         <div className="animate-in fade-in duration-500">
           {/* Top Stat Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-            <div className="bg-[#111111] border border-zinc-800 rounded-xl p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 animate-fade-in-up delay-2">
+            <div className="bg-[#111111] border border-zinc-800 rounded-xl p-6 card-hover">
               <h3 className="text-zinc-400 text-sm font-medium mb-2">Total Sessions</h3>
               <p className="text-4xl font-bold text-white mb-2">{sessions.length}</p>
               <p className="text-xs text-zinc-500">Sessions you've created</p>
             </div>
-            <div className="bg-[#111111] border border-blue-900/30 rounded-xl p-6">
+            <div className="bg-[#111111] border border-blue-900/30 rounded-xl p-6 card-hover">
               <h3 className="text-zinc-400 text-sm font-medium mb-2">Total Bookings</h3>
               <p className="text-4xl font-bold text-blue-500 mb-2">{totalBookings}</p>
               <p className="text-xs text-zinc-500">Students enrolled</p>
             </div>
-            <div className="bg-[#111111] border border-green-900/30 rounded-xl p-6">
+            <div className="bg-[#111111] border border-green-900/30 rounded-xl p-6 card-hover">
               <h3 className="text-zinc-400 text-sm font-medium mb-2">Potential Revenue</h3>
               <p className="text-4xl font-bold text-green-500 mb-2">₹{potentialRevenue}</p>
               <p className="text-xs text-zinc-500">From current bookings</p>
@@ -114,8 +119,8 @@ export default function CoachAnalytics() {
           </div>
 
           {/* Middle Section: Top Performers & Revenue Bars */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div className="bg-[#111111] border border-zinc-800 rounded-xl p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 animate-fade-in-up delay-3">
+            <div className="bg-[#111111] border border-zinc-800 rounded-xl p-6 card-hover">
               <h3 className="text-xl font-bold mb-6">Top Performing Sessions</h3>
               <div className="space-y-6">
                 {sortedSessions.slice(0, 3).map((session, index) => (
@@ -137,7 +142,7 @@ export default function CoachAnalytics() {
               </div>
             </div>
 
-            <div className="bg-[#111111] border border-zinc-800 rounded-xl p-6">
+            <div className="bg-[#111111] border border-zinc-800 rounded-xl p-6 card-hover">
               <h3 className="text-xl font-bold mb-6">Revenue by Session</h3>
               <div className="space-y-6">
                 {sortedSessions.slice(0, 3).map(session => {
@@ -152,7 +157,7 @@ export default function CoachAnalytics() {
                         <span className="font-bold text-blue-500">₹{revenue}</span>
                       </div>
                       <div className="w-full bg-zinc-800 rounded-full h-2.5 mb-1">
-                        <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${percentage}%` }}></div>
+                        <div className="bg-blue-600 h-2.5 rounded-full progress-bar-animated" style={{ width: `${percentage}%` }}></div>
                       </div>
                       <p className="text-xs text-zinc-500">₹{session.price} x {session.bookings?.length || 0} bookings</p>
                     </div>
@@ -164,7 +169,7 @@ export default function CoachAnalytics() {
           </div>
 
           {/* Bottom Table: Session Details */}
-          <div className="bg-[#111111] border border-zinc-800 rounded-xl overflow-hidden">
+          <div className="bg-[#111111] border border-zinc-800 rounded-xl overflow-hidden animate-fade-in-up delay-4">
             <div className="p-6 border-b border-zinc-800">
               <h3 className="text-xl font-bold">Session Details</h3>
             </div>
@@ -182,7 +187,7 @@ export default function CoachAnalytics() {
                 </thead>
                 <tbody>
                   {sessions.map(session => (
-                    <tr key={session.id} className="border-b border-zinc-800 hover:bg-[#161616] transition-colors">
+                    <tr key={session.id} className="border-b border-zinc-800 hover:bg-[#161616] transition-colors row-hover">
                       <td className="px-6 py-4 font-medium text-zinc-200">{session.title}</td>
                       <td className="px-6 py-4">TBD</td>
                       <td className="px-6 py-4"><span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2 py-1 rounded-full text-xs">Standard</span></td>

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Eye, EyeOff } from "lucide-react"; // Assuming you have lucide-react installed from v0
+import { Eye, EyeOff, ArrowLeft } from "lucide-react"; // Assuming you have lucide-react installed from v0
 import api from '../lib/api'; 
 
 export default function LoginPage() {
@@ -44,12 +44,21 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#0a0a0a] px-4 font-sans">
-      <div className="p-8 sm:p-10 bg-[#111111] border border-zinc-800 rounded-2xl w-full max-w-[400px]">
+    <div className="flex items-center justify-center min-h-screen bg-[#0a0a0a] px-4 font-sans relative overflow-hidden">
+      <Link href="/" className="absolute top-8 left-8 flex items-center gap-2 text-zinc-400 hover:text-white transition-colors animate-fade-in-up z-20 font-medium bg-[#111111]/80 px-4 py-2 rounded-full border border-zinc-800 backdrop-blur-md">
+        <ArrowLeft size={18} />
+        <span>Back to Home</span>
+      </Link>
+      
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="bg-orb bg-orb-blue w-80 h-80 -top-40 -right-40 absolute" />
+        <div className="bg-orb bg-orb-purple w-64 h-64 bottom-20 -left-32 absolute" />
+      </div>
+      <div className="p-8 sm:p-10 bg-[#111111] border border-zinc-800 rounded-2xl w-full max-w-[400px] animate-scale-in relative z-10">
         
         {/* Header Section */}
-        <h2 className="text-3xl font-bold mb-2 text-white tracking-tight">Sign In</h2>
-        <p className="text-zinc-400 text-sm mb-8 leading-relaxed">
+        <h2 className="text-3xl font-bold mb-2 text-white tracking-tight animate-fade-in-up">Sign In</h2>
+        <p className="text-zinc-400 text-sm mb-8 leading-relaxed animate-fade-in-up delay-1">
           Welcome back to Mavano Sports. Sign in to your account.
         </p>
         
@@ -61,7 +70,7 @@ export default function LoginPage() {
         )}
 
         {/* Form Section */}
-        <form onSubmit={handleLogin} className="space-y-5">
+        <form onSubmit={handleLogin} className="space-y-5 animate-fade-in-up delay-2">
           
           <div>
             <label className="block text-sm font-medium text-zinc-200 mb-2">Email Address</label>
@@ -99,14 +108,14 @@ export default function LoginPage() {
 
           <button 
             type="submit" 
-            className="w-full py-3.5 mt-2 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-[0_0_15px_rgba(37,99,235,0.2)]"
+            className="w-full py-3.5 mt-2 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-[0_0_15px_rgba(37,99,235,0.2)] btn-glow btn-shine"
           >
             Sign In
           </button>
         </form>
 
         {/* Optional Footer Link to align with Register Page */}
-        <p className="mt-8 text-center text-sm text-zinc-400">
+        <p className="mt-8 text-center text-sm text-zinc-400 animate-fade-in delay-3">
           Don't have an account?{' '}
           <Link href="/register" className="text-blue-500 hover:text-blue-400 font-medium transition-colors">
             Register here

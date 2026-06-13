@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import api from '../lib/api';
 
@@ -34,12 +35,21 @@ export default function RegisterPage() {
   };
     
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#0a0a0a] px-4 font-sans">
-      <div className="p-8 sm:p-10 bg-[#111111] border border-zinc-800 rounded-2xl w-full max-w-[440px]">
+    <div className="flex items-center justify-center min-h-screen bg-[#0a0a0a] px-4 font-sans relative overflow-hidden">
+      <Link href="/" className="absolute top-8 left-8 flex items-center gap-2 text-zinc-400 hover:text-white transition-colors animate-fade-in-up z-20 font-medium bg-[#111111]/80 px-4 py-2 rounded-full border border-zinc-800 backdrop-blur-md">
+        <ArrowLeft size={18} />
+        <span>Back to Home</span>
+      </Link>
+      
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="bg-orb bg-orb-blue w-80 h-80 -top-40 -left-40 absolute" />
+        <div className="bg-orb bg-orb-purple w-64 h-64 -bottom-20 right-10 absolute" />
+      </div>
+      <div className="p-8 sm:p-10 bg-[#111111] border border-zinc-800 rounded-2xl w-full max-w-[440px] animate-scale-in relative z-10">
         
         {/* Header Section */}
-        <h2 className="text-3xl font-bold mb-2 text-white tracking-tight">Create Account</h2>
-        <p className="text-zinc-400 text-sm mb-8 leading-relaxed">
+        <h2 className="text-3xl font-bold mb-2 text-white tracking-tight animate-fade-in-up">Create Account</h2>
+        <p className="text-zinc-400 text-sm mb-8 leading-relaxed animate-fade-in-up delay-1">
           Join Mavano Sports and start your coaching journey today.
         </p>
         
@@ -51,7 +61,7 @@ export default function RegisterPage() {
         )}
 
         {/* Form Section */}
-        <form onSubmit={handleRegister} className="space-y-5">
+        <form onSubmit={handleRegister} className="space-y-5 animate-fade-in-up delay-2">
           
           <div>
             <label className="block text-sm font-medium text-zinc-200 mb-2">Full Name</label>
@@ -103,14 +113,14 @@ export default function RegisterPage() {
 
           <button 
             type="submit" 
-            className="w-full py-3.5 mt-2 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-[0_0_15px_rgba(37,99,235,0.2)]"
+            className="w-full py-3.5 mt-2 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-[0_0_15px_rgba(37,99,235,0.2)] btn-glow btn-shine"
           >
             Create Account
           </button>
         </form>
 
         {/* Footer Link */}
-        <p className="mt-8 text-center text-sm text-zinc-400">
+        <p className="mt-8 text-center text-sm text-zinc-400 animate-fade-in delay-3">
           Already have an account?{' '}
           <Link href="/login" className="text-blue-500 hover:text-blue-400 font-medium transition-colors">
             Sign in here
