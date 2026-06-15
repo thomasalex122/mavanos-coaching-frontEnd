@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // point axios to the nest js backend
 const api = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
 })
 
 
